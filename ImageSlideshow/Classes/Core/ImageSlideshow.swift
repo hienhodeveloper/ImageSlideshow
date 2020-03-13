@@ -182,6 +182,18 @@ open class ImageSlideshow: UIView {
         }
     }
 
+    open var imageCornerRadius : CGFloat = 0 {
+        didSet {
+            reloadScrollView()
+        }
+    }
+    
+    open var spaceBetweenImages : CGFloat = 0 {
+        didSet {
+            reloadScrollView()
+        }
+    }
+    
     /// Image change interval, zero stops the auto-scrolling
     open var slideshowInterval = 0.0 {
         didSet {
@@ -242,10 +254,6 @@ open class ImageSlideshow: UIView {
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.showsVerticalScrollIndicator = false
         scrollView.autoresizingMask = autoresizingMask
-        if UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft {
-            scrollView.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi))
-        }
-
         if #available(iOS 11.0, *) {
             scrollView.contentInsetAdjustmentBehavior = .never
         }
@@ -320,7 +328,7 @@ open class ImageSlideshow: UIView {
 
         var i = 0
         for image in scrollViewImages {
-            let item = ImageSlideshowItem(image: image, zoomEnabled: zoomEnabled, activityIndicator: activityIndicator?.create(), maximumScale: maximumScale)
+            let item = ImageSlideshowItem(image: image, zoomEnabled: zoomEnabled, activityIndicator: activityIndicator?.create(), maximumScale: maximumScale, spaceBetweenImages: spaceBetweenImages, imageCornerRadius: imageCornerRadius)
             item.imageView.contentMode = contentScaleMode
             slideshowItems.append(item)
             scrollView.addSubview(item)
